@@ -1,5 +1,6 @@
 package com.thinkproject.api_demo.service;
 
+import com.thinkproject.api_demo.exception.CloudVendorNotFoundException;
 import com.thinkproject.api_demo.model.CloudVendor;
 import com.thinkproject.api_demo.repository.CloudVendorRepository;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class CloudVendorServiceImpl implements CloudVendorService{
     @Override
     public CloudVendor getCloudVendor(String vendorId) {
         //extra business logic here
+        if(cloudVendorRepository.findById(vendorId).isEmpty()){
+            throw new CloudVendorNotFoundException("Requested Cloud Vendor Doesn't exist.");
+        }
         return cloudVendorRepository.findById(vendorId).get();
     }
 
